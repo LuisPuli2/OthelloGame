@@ -423,7 +423,6 @@
       // println("sale profundidad: " + profundidad);
       // Si no regresa una jugada válida y la profundidad es cero... 
       if (fila == -1 && profundidad != 0) {
-        println("entra a el caso chido");
         // Regresa este mismo método pero con profundidad 0.
         return busca_max(turno,0);
       }
@@ -474,7 +473,6 @@
       }
       // println("sale profundidad: " + profundidad);
       if (fila == -1 && profundidad != 0) {
-        println("entra a el caso chido");
         // Regresa este mismo método pero con profundidad 0.
         return busca_min(turno,0);
       }
