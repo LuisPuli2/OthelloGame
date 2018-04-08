@@ -381,6 +381,7 @@
     /* Funciones auxiliares */
     /* Busca la mejor jugada para nosotros (la máquina)*/
     int[] busca_max (boolean turno,int profundidad){
+      // println("entra profundidad: " + profundidad);
       /* Inicialización de max */
       int max = (int)Double.NEGATIVE_INFINITY;
       int fit;
@@ -419,12 +420,20 @@
           }
         }
       }
+      // println("sale profundidad: " + profundidad);
+      // Si no regresa una jugada válida y la profundidad es cero... 
+      if (fila == -1 && profundidad != 0) {
+        println("entra a el caso chido");
+        // Regresa este mismo método pero con profundidad 0.
+        return busca_max(turno,0);
+      }
       // println("---------------------------");
       /* Regresamos la mejor jugada encontrada */
       return new int [] {fila,columna,max};
     }
 
     int [] busca_min (boolean turno,int profundidad){
+      // println("entra profundidad: " + profundidad);
       /* Inicialización de max */
       int min = (int)Double.POSITIVE_INFINITY;
       int fit;
@@ -463,7 +472,12 @@
           }
         }
       }
-      // println("---------------------------");
+      // println("sale profundidad: " + profundidad);
+      if (fila == -1 && profundidad != 0) {
+        println("entra a el caso chido");
+        // Regresa este mismo método pero con profundidad 0.
+        return busca_min(turno,0);
+      }
       /* Regresamos la mejor jugada encontrada */
       return new int [] {fila,columna,min};
     }
@@ -703,9 +717,15 @@
       // int tirada [] = tablero.calcula_mejor_jugada(tablero.getTurno());
       int tirada [] = tablero.min_max(tablero.getTurno(),5);
       println("Tirada en: " + tirada[0] + "," + tirada[1]);
-      /* Si no hay jugadas disponibles */
+      /* Si no hay jugadas disponbles a 5 niveles, intenta con 0 niveles */
       if (tirada[0] == -1 || tirada[1] == -1) {
-        // println("Ya no tengo opciones, es tu turno.");
+        println("Ya no tengo opciones, intento con un nivel.");
+        tirada  = tablero.min_max(tablero.getTurno(),0);
+        println("Tirada en: " + tirada[0] + "," + tirada[1]);
+      }
+      /* Si no hay jugadas disponibles realmente*/
+      if (tirada[0] == -1 || tirada[1] == -1) {
+        println("Ya no tengo opciones, tu turno.");
         /* Cambia de turno. */
         tablero.setTurno(!tablero.getTurno());
       }
